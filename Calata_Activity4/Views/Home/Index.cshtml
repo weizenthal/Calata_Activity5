@@ -1,144 +1,276 @@
-﻿@{
+﻿@model IEnumerable<Calata_Activity4.Models.YouTubeVideo>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-
 <style>
     body {
-        background-color: #f8bbd0; 
+        background: linear-gradient(-45deg, #ff9a9e 0%, #fecfef 50%, #a1c4fd 100%);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        min-height: 100vh;
+        font-family: 'Poppins', 'Segoe UI', sans-serif;
     }
 
-    .main-container {
-        display: flex;
-        width: 100%;
-        max-width: 1100px;
-        background: white;
-        border-radius: 30px;
-        overflow: hidden;
-        margin: 40px auto;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    /* Fixed: Escaped properly for Razor parsing */
+    @@keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
-    .grid-wrapper {
-        flex: 1.2;
-        background-color: #fce4ec;
-        padding: 30px;
-        display: flex;
-        align-items: center;
-    }
-
-    .photo-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        width: 100%;
-    }
-
-    .photo-box {
-        aspect-ratio: 1 / 1;
-        overflow: hidden;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    .photo-box img {
+    /* Floating Media Elements Overlay */
+    .bg-hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
+        overflow: hidden;
+        z-index: -1;
+        pointer-events: none;
+    }
+    .heart-bubble {
+        position: absolute;
+        bottom: -10%;
+        font-size: 1.5rem;
+        opacity: 0.2;
+        animation: floatUp 8s linear infinite;
     }
 
-    .photo-box img:hover {
-        transform: scale(1.08);
+    /* Fixed: Escaped properly for Razor parsing */
+    @@keyframes floatUp {
+        0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.2; }
+        50% { opacity: 0.4; }
+        100% { transform: translateY(-120vh) translateX(50px) rotate(360deg); opacity: 0; }
     }
 
-    .info-wrapper {
-        flex: 1;
-        padding: 60px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    /* Soft Rounded Glass Cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        border-radius: 24px;
+        box-shadow: 0 8px 32px rgba(255, 102, 170, 0.1);
     }
 
-    h1 {
-        color: #ff66aa;
-        font-family: 'Dancing Script', cursive; 
-        font-size: 4rem;
-        margin-bottom: 15px;
-    }
-
-    .bio-text {
-        color: #555;
-        line-height: 1.8;
-        font-size: 1.1rem;
-        margin-bottom: 25px;
-    }
-
-    .manifest-text {
-        font-style: italic;
-        color: #d81b60;
-        font-weight: 500;
-        border-left: 3px solid #ff66aa;
-        padding-left: 15px;
-        margin-bottom: 30px;
-    }
-
-    .contact-btn {
-        display: inline-block;
-        padding: 12px 35px;
-        background-color: #ff66aa;
+    .btn-gradient-pink {
+        background: linear-gradient(45deg, #ff66aa, #ff4081);
         color: white;
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: bold;
+        border: none;
+        border-radius: 25px;
         transition: all 0.3s ease;
-        width: fit-content;
+    }
+    .btn-gradient-pink:hover {
+        background: linear-gradient(45deg, #ff4081, #ff66aa);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
     }
 
-    .contact-btn:hover {
-        background-color: #d81b60;
+    /* Flat Action Pilled Buttons (No Emojis) */
+    .btn-action-pill {
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 5px 16px;
+        transition: all 0.2s ease;
+    }
+    .btn-action-pill:hover {
         transform: translateY(-2px);
     }
 
-    @@media (max-width: 992px) {
-        .main-container {
-            flex-direction: column-reverse;
-            margin: 10px auto;
-        }
-        .info-wrapper {
-            padding: 40px 20px;
-            text-align: center;
-        }
-        .contact-btn {
-            margin: 0 auto;
-        }
+    /* Flat Aesthetic Custom Badges */
+    .badge-bts-glow {
+        background: linear-gradient(45deg, #512da8, #673ab7);
+        color: white;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(103, 58, 183, 0.25);
+    }
+    .badge-svt-glow {
+        background: linear-gradient(45deg, #f7cac9, #92a8d1);
+        color: #2c3e50;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(146, 168, 209, 0.35);
+    }
+    .badge-others-glow {
+        background: linear-gradient(45deg, #757575, #9e9e9e);
+        color: white;
+        font-weight: 500;
+    }
+
+    /* Picture Layout Grid Settings */
+    .gallery-frame {
+        width: 100%; 
+        height: 170px; 
+        object-fit: cover; 
+        border: 4px solid #ffffff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+    .gallery-frame:hover {
+        transform: scale(1.04);
+        border-color: #ffb3d1;
+    }
+
+    /* Clean Styled Table Adjustments */
+    .custom-table-glow th {
+        background: linear-gradient(45deg, #ff66aa, #ff4081) !important;
+        color: white !important;
+        border: none;
+        font-weight: 600;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    .table-row-hover {
+        transition: background-color 0.2s ease;
+    }
+    .table-row-hover:hover {
+        background-color: rgba(255, 255, 255, 0.85) !important;
     }
 </style>
 
-<div class="main-container">
-    <div class="grid-wrapper">
-        <div class="photo-grid">
-            <div class="photo-box"><img src="/one.jpg" alt="Bia 1"></div>
-            <div class="photo-box"><img src="/two.jpg" alt="Bia 2"></div>
-            <div class="photo-box"><img src="/three.jpg" alt="Bia 3"></div>
-            <div class="photo-box"><img src="/four.jpg" alt="Bia 4"></div>
+<div class="bg-hearts">
+    <div class="heart-bubble" style="left: 10%; animation-delay: 0s; animation-duration: 6s;">💜</div>
+    <div class="heart-bubble" style="left: 30%; animation-delay: 2s; animation-duration: 8s;">💎</div>
+    <div class="heart-bubble" style="left: 50%; animation-delay: 1s; animation-duration: 7s;">✨</div>
+    <div class="heart-bubble" style="left: 70%; animation-delay: 4s; animation-duration: 9s;">🌸</div>
+    <div class="heart-bubble" style="left: 90%; animation-delay: 3s; animation-duration: 6s;">💜</div>
+</div>
+
+<div class="container mt-4 mb-5">
+    
+    <div class="card glass-card p-4 mb-5 border-0">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="row g-2">
+                    <div class="col-6"><img src="~/one.jpg" class="img-fluid rounded-4 gallery-frame" alt="Hiking" /></div>
+                    <div class="col-6"><img src="~/two.jpg" class="img-fluid rounded-4 gallery-frame" alt="Bia Blue" /></div>
+                    <div class="col-6"><img src="~/three.jpg" class="img-fluid rounded-4 gallery-frame" alt="Cat" /></div>
+                    <div class="col-6"><img src="~/four.jpg" class="img-fluid rounded-4 gallery-frame" alt="Bia Profile" /></div>
+                </div>
+            </div>
+            
+            <div class="col-lg-7 ps-lg-4">
+                <h1 class="display-5 fw-bold" style="color: #d63384; font-family: 'Comic Sans MS', 'Cursive', sans-serif;">Hello! I am Bia ✨</h1>
+                <p class="lead text-dark fs-6 mt-3 lh-base fw-medium">
+                    I'm a dedicated working student and a full-time furmom to my beloved cats (though one of them is quite camera-shy!). I have a deep love for exploring new places, trying out unique activities, and traveling to see what the world has to offer.
+                </p>
+                <div class="border-start border-4 ps-3 my-4" style="border-color: #ff4081 !important; background: rgba(255, 255, 255, 0.4); padding: 12px; border-radius: 0 16px 16px 0;">
+                    <p class="fst-italic fw-semibold mb-0" style="color: #900c3f !important;">
+                        Currently manifesting a life of peace and happiness—settling down in Australia, achieving career success, and gaining the financial freedom to attend every BTS and Seventeen concert. AMEN 🙏💜💎
+                    </p>
+                </div>
+                <button class="btn btn-gradient-pink fw-bold px-4 py-2 shadow-sm">Let's Be Friends!</button>
+            </div>
         </div>
     </div>
 
-    <div class="info-wrapper">
-        <h1>Hello! I am Bia</h1>
-        
-        <div class="bio-text">
-            I’m a dedicated working student and a full-time furrmom to my beloved cats (though one of them is quite camera-shy!). 
-            I have a deep love for exploring new places, trying out unique activities, and traveling to see what the world has to offer.
-        </div>
+    <div class="d-flex align-items-center my-5 text-muted opacity-70">
+        <hr class="flex-grow-1" style="border-top: 2px dashed #ff66aa;" />
+        <span class="mx-3 fs-3" style="color: #ff4081; filter: drop-shadow(0 0 4px #ff66aa);">💖</span>
+        <hr class="flex-grow-1" style="border-top: 2px dashed #ff66aa;" />
+    </div>
 
-        <div class="manifest-text">
-            Currently manifesting a life of peace and happiness—settling down in Australia, achieving career success, 
-            and gaining the financial freedom to attend every BTS and Seventeen concert. AMEN ✨
-        </div>
+    <h2 class="mb-4 text-center fw-bold text-white" style="text-shadow: 2px 2px 6px rgba(214, 51, 132, 0.3); font-family: 'Comic Sans MS', sans-serif;">
+        🎶 Videos That Make Me Feel Alive 🎶
+    </h2>
 
-        <a href="#" class="contact-btn">Let's Be Friends!</a>
+    <div class="card glass-card border-0 mb-4">
+        <div class="card-body p-4">
+            <h5 class="card-title fw-bold mb-3" style="color: #ff4081;">Log a New Favorite Entry</h5>
+            <form asp-controller="YouTubeVideos" asp-action="CreateSinglePage" method="post">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-dark">Video Title</label>
+                        <input type="text" name="Title" class="form-control rounded-3 border-0 bg-white shadow-sm p-2" placeholder="e.g., Run BTS" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-dark">YouTube URL</label>
+                        <input type="url" name="VideoUrl" class="form-control rounded-3 border-0 bg-white shadow-sm p-2" placeholder="https://youtube.com/..." required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-semibold text-dark">Category</label>
+                        <select name="Category" class="form-select rounded-3 border-0 bg-white shadow-sm p-2" required>
+                            <option value="" disabled selected>Select Category...</option>
+                            <option value="BTS">BTS</option>
+                            <option value="SVT">SVT</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button type="submit" class="btn btn-gradient-pink fw-bold text-white shadow-sm py-2">Save Entry</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card glass-card border-0 overflow-hidden shadow">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle custom-table-glow">
+                <thead>
+                    <tr>
+                        <th class="ps-4 py-3" style="width: 55%;">Title</th>
+                        <th class="text-center py-3" style="width: 15%;">Category</th>
+                        <th class="text-center py-3" style="width: 30%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-5 bg-white-50">
+                                <span class="fs-1 d-block mb-2">🌸</span>
+                                <span class="fw-medium">No video logs saved yet. Drop your first link above!</span>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="table-row-hover">
+                                <td class="ps-4 fw-bold text-dark fs-6 text-wrap">@item.Title</td>
+                                <td class="text-center">
+                                    @if (item.Category == "BTS")
+                                    {
+                                        <span class="badge badge-bts-glow px-3 py-2 rounded-pill fs-7">💜 BTS</span>
+                                    }
+                                    else if (item.Category == "SVT")
+                                    {
+                                        <span class="badge badge-svt-glow px-3 py-2 rounded-pill fs-7">💎 SVT</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-others-glow px-3 py-2 rounded-pill fs-7">✨ Others</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="@item.VideoUrl" target="_blank" class="btn btn-sm btn-info text-white btn-action-pill shadow-sm">
+                                            Watch
+                                        </a>
+                                        
+                                        <a asp-controller="YouTubeVideos" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary btn-action-pill bg-white">
+                                            Edit
+                                        </a>
+                                        
+                                        <form asp-controller="YouTubeVideos" asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this favorite entry?');" style="display:inline;">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-danger btn-action-pill shadow-sm">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

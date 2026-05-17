@@ -1,0 +1,35 @@
+﻿@model Calata_Activity4.Models.YouTubeVideo
+
+@{
+    ViewData["Title"] = "Add Video";
+}
+
+<div class="container mt-4">
+    <h1>Add a Video That Makes You Feel Alive</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="control-label fw-bold"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="VideoUrl" class="control-label fw-bold"></label>
+                    <input asp-for="VideoUrl" class="form-control" placeholder="https://youtube.com/..." />
+                    <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Reflection" class="control-label fw-bold"></label>
+                    <textarea asp-for="Reflection" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Reflection" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save Video" class="btn btn-success me-2" />
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

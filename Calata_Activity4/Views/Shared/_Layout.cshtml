@@ -1,6 +1,4 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Calata_Activity4</title>
@@ -19,9 +17,7 @@
                 bottom: 0;
                 width: 100%;
             }
-    </style>
-</head>
-<body>
+    </style></head><body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-pink-custom border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -33,6 +29,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="YouTubeVideos" asp-action="Index">Feel Alive Videos</a>
                         </li>
                     </ul>
                 </div>
@@ -54,6 +53,4 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+    @await RenderSectionAsync("Scripts", required: false)</body></html>

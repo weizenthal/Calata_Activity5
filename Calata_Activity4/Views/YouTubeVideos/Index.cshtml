@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Calata_Activity4.Models.YouTubeVideo>
+
+@{
+    ViewData["Title"] = "Videos That Make Me Feel Alive";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Videos That Make Me Feel Alive</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Add New Video</a>
+    </p>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Title)</th>
+                <th>@Html.DisplayNameFor(model => model.VideoUrl)</th>
+                <th>@Html.DisplayNameFor(model => model.Reflection)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><strong>@Html.DisplayFor(modelItem => item.Title)</strong></td>
+                    <td><a href="@item.VideoUrl" target="_blank" class="text-primary">@Html.DisplayFor(modelItem => item.VideoUrl)</a></td>
+                    <td>@Html.DisplayFor(modelItem => item.Reflection)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
